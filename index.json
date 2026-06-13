@@ -26,12 +26,12 @@
     {
       "id": "text-tools",
       "name": "Text Tools",
-      "version": "1.0.0",
-      "description": "Transform the selection or whole document: case convert, sort/unique/reverse lines, trim trailing whitespace.",
+      "version": "1.1.0",
+      "description": "Transform the selection or whole document: case convert, sort/unique/reverse lines, trim trailing whitespace, squeeze blank lines.",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/text-tools-v1.0.0/text-tools.zip",
-      "sha256": "93d7789ebf2afdb98057a8c7f915b7b7313d66e2b68d8ebf188cf0498e1187b2",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/text-tools-v1.1.0/text-tools.zip",
+      "sha256": "8cb69c50d31cc1cb90b6f37939b753aa0e7b6af247d7140423a516d60cd131f8",
       "minEditoraVersion": "1.0.0"
     },
     {
@@ -65,6 +65,50 @@
       "homepage": "https://github.com/adriandeleon/editora-plugins",
       "download": "https://github.com/adriandeleon/editora-plugins/releases/download/format-runner-v1.0.0/format-runner.zip",
       "sha256": "2f929bec4fe614cd296ed669b4bb435e38e55abeee69df5ff81d2e5d533b470e",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "encode-tools",
+      "name": "Encode Tools",
+      "version": "1.0.0",
+      "description": "Encode/decode the selection or document: Base64, URL, HTML entities, ROT13, hex.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/encode-tools-v1.0.0/encode-tools.zip",
+      "sha256": "65f5a8e78f340b75e5c12dcf83b1ad8873ebc45682257915afa49f9495c3cc74",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "hash-tools",
+      "name": "Hash Tools",
+      "version": "1.0.0",
+      "description": "Hash text to a hex digest (MD5/SHA-1/SHA-256): replace the selection, or insert the document's hash.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/hash-tools-v1.0.0/hash-tools.zip",
+      "sha256": "391c4a5eb047132c557474f36f643d2fd3a096ddb5efbbc13aac8d47f24d9543",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "markdown-toc",
+      "name": "Markdown TOC",
+      "version": "1.0.0",
+      "description": "Insert a table of contents (linked bullet list) built from the document's Markdown headings.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/markdown-toc-v1.0.0/markdown-toc.zip",
+      "sha256": "dd454e24fc8e2ad447d3d815a7eca0429d22cd03b636f061171e4f0b8a776ce8",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "regex-tester",
+      "name": "Regex Tester",
+      "version": "1.0.0",
+      "description": "A live regex tester tool window: pattern + flags + test string, with match spans and capture groups.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/regex-tester-v1.0.0/regex-tester.zip",
+      "sha256": "38563853ea1627927901571016a61bc80d08cf25520c48d2098d58f05dad1dba",
       "minEditoraVersion": "1.0.0"
     }
   ]

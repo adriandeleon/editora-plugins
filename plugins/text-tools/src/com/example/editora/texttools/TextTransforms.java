@@ -120,4 +120,20 @@ final class TextTransforms {
         }
         return String.join("\n", ls);
     }
+
+    /** Collapses runs of blank (empty/whitespace-only) lines into a single empty line. */
+    static String squeezeBlank(String s) {
+        String[] ls = lines(s);
+        List<String> out = new ArrayList<>();
+        boolean prevBlank = false;
+        for (String l : ls) {
+            boolean blank = l.isBlank();
+            if (blank && prevBlank) {
+                continue;
+            }
+            out.add(blank ? "" : l);
+            prevBlank = blank;
+        }
+        return String.join("\n", out);
+    }
 }

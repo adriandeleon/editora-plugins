@@ -25,6 +25,7 @@ public class TextToolsPlugin implements Plugin {
         cmd(ctx, "uniqueLines", "Text: Unique Lines", TextTransforms::uniqueLines);
         cmd(ctx, "reverseLines", "Text: Reverse Lines", TextTransforms::reverseLines);
         cmd(ctx, "trimTrailing", "Text: Trim Trailing Whitespace", TextTransforms::trimTrailing);
+        cmd(ctx, "squeezeBlank", "Text: Squeeze Blank Lines", TextTransforms::squeezeBlank);
     }
 
     private void cmd(PluginContext ctx, String id, String title, UnaryOperator<String> fn) {
