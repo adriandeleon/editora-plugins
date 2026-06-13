@@ -1,5 +1,10 @@
 # Editora plugins
 
+[![Validate registry](https://github.com/adriandeleon/editora-plugins/actions/workflows/validate.yml/badge.svg)](https://github.com/adriandeleon/editora-plugins/actions/workflows/validate.yml)
+[![Verify assets](https://github.com/adriandeleon/editora-plugins/actions/workflows/verify-assets.yml/badge.svg)](https://github.com/adriandeleon/editora-plugins/actions/workflows/verify-assets.yml)
+[![Plugins](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fadriandeleon%2Feditora-plugins%2Fmain%2Findex.json&query=%24.plugins.length&label=plugins&color=blue)](index.json)
+[![Registry: Ed25519 signed](https://img.shields.io/badge/registry-Ed25519%20signed-success)](#signing-the-index)
+
 A plugin registry for the [Editora](https://github.com/adriandeleon) text editor. The `index.json` at the
 repo root lists installable plugins; Editora fetches it from
 `https://raw.githubusercontent.com/adriandeleon/editora-plugins/main/index.json` for
