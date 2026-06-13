@@ -73,4 +73,18 @@ install). Entries needing a newer Editora than the user's are listed but not ins
 (`minEditoraVersion`). The zip stores file timestamps, so its hash changes on each rebuild — always use the
 hash of the exact asset you upload.
 
+## Signing the index
+
+Editora verifies a detached **Ed25519** signature of `index.json` (`index.json.sig`) against a public key
+bundled in the app, and blocks installs from an unsigned/unverified registry when *Require signed plugins*
+(default on) is set. **Re-sign whenever you edit `index.json`:**
+
+```sh
+# in Editora's checkout (one keypair, kept secret):
+java scripts/PluginSigningTool.java sign <registry-private-key> index.json   # writes index.json.sig
+```
+
+Commit `index.json.sig` next to `index.json`. (The matching public key ships inside Editora; a fork with
+its own key bundled can run its own signed registry.)
+
 See the Editora plugin guide for the full plugin API and manifest format.
