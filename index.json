@@ -22,6 +22,50 @@
       "download": "https://github.com/adriandeleon/editora-plugins/releases/download/lorem-ipsum-v1.0.0/lorem-ipsum.zip",
       "sha256": "c8814c2ec460c5b8f8dac6320041dfa029ef0c4d68a588fba3b4bc3a22b6796f",
       "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "text-tools",
+      "name": "Text Tools",
+      "version": "1.0.0",
+      "description": "Transform the selection or whole document: case convert, sort/unique/reverse lines, trim trailing whitespace.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/text-tools-v1.0.0/text-tools.zip",
+      "sha256": "93d7789ebf2afdb98057a8c7f915b7b7313d66e2b68d8ebf188cf0498e1187b2",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "insert-tools",
+      "name": "Insert Tools",
+      "version": "1.0.0",
+      "description": "Insert a UUID or the current date/time at the caret in common formats.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/insert-tools-v1.0.0/insert-tools.zip",
+      "sha256": "0c91e108a8f6cebb9c0ffa18f83f0617194d0add5c4da79d7db2db03eaacf3d4",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "scratchpad",
+      "name": "Scratchpad",
+      "version": "1.0.0",
+      "description": "A persistent scratchpad tool window; auto-saves to the plugin's data dir.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/scratchpad-v1.0.0/scratchpad.zip",
+      "sha256": "2485a4c2cbd511e52a938afb40aee67721e97e5ef4a430a6b8dafd51c6dc29c2",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "format-runner",
+      "name": "Format Runner",
+      "version": "1.0.0",
+      "description": "Format the active file with an external formatter (prettier/black/gofmt/rustfmt/clang-format), chosen by extension.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/format-runner-v1.0.0/format-runner.zip",
+      "sha256": "2f929bec4fe614cd296ed669b4bb435e38e55abeee69df5ff81d2e5d533b470e",
+      "minEditoraVersion": "1.0.0"
     }
   ]
 }
