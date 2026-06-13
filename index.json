@@ -110,6 +110,105 @@
       "download": "https://github.com/adriandeleon/editora-plugins/releases/download/regex-tester-v1.0.0/regex-tester.zip",
       "sha256": "38563853ea1627927901571016a61bc80d08cf25520c48d2098d58f05dad1dba",
       "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "json-tools",
+      "name": "JSON / XML Tools",
+      "version": "1.0.0",
+      "description": "Tidy structured text: JSON pretty-print/minify and XML pretty-print.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/json-tools-v1.0.0/json-tools.zip",
+      "sha256": "c14e479b25481256c35e8f71c9ce93cf2efb8e5345f26b81c4e6a8ac82237fc6",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "slug-tools",
+      "name": "Slug & Sequence",
+      "version": "1.0.0",
+      "description": "Slugify text, number lines, or fill a column with 1..N.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/slug-tools-v1.0.0/slug-tools.zip",
+      "sha256": "4e442d50b08f661b3d6721be83d41cfc3adeac7a8a2332679afc32c422ae54b8",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "box-banner",
+      "name": "Box Banner",
+      "version": "1.0.0",
+      "description": "Wrap the selection in an ASCII box banner.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/box-banner-v1.0.0/box-banner.zip",
+      "sha256": "b63b77a4915ff4c41f83e8d880e692e987c4076e6392ea78e2f5378a76da5ad1",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker",
+      "version": "1.0.0",
+      "description": "Pick a color and insert it as HEX / rgb() / rgba() (tool window).",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/color-picker-v1.0.0/color-picker.zip",
+      "sha256": "1df5a2e8b0113020230eb537829c3d02bffdd40ae1015e3c8e78ef99d09efa7d",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "word-count",
+      "name": "Word Count",
+      "version": "1.0.0",
+      "description": "Live word/line/character count + reading time (tool window).",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/word-count-v1.0.0/word-count.zip",
+      "sha256": "bd8a9d6cb2f6743a3488f412eb2b2e4308ba4a4084300db27bcf40501f8a4760",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "calculator",
+      "name": "Calculator",
+      "version": "1.0.0",
+      "description": "Evaluate arithmetic expressions and insert the result (tool window).",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/calculator-v1.0.0/calculator.zip",
+      "sha256": "8cd0ee7b471b7047dbc78173ee6dda28c7f9a49d65f891d98ca56cb5ee86a045",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "open-on-github",
+      "name": "Open on GitHub",
+      "version": "1.0.0",
+      "description": "Open the active file at the caret line on its remote's web UI.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/open-on-github-v1.0.0/open-on-github.zip",
+      "sha256": "9b8a463fd16874d8208423e4ae3fb56a8cff8c5b3b299500301dc0bb191198e2",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "reveal",
+      "name": "Reveal & Terminal",
+      "version": "1.0.0",
+      "description": "Reveal the file in the OS file manager, or open a terminal at its folder.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/reveal-v1.0.0/reveal.zip",
+      "sha256": "d591f6a10645bbbe9ad9ef7daca9e8583fe31fbbb3608e60dad0885c74d13f4e",
+      "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "run-task",
+      "name": "Task Runner",
+      "version": "1.0.0",
+      "description": "Run a shell task (npm/make/\u2026) in the file's directory and stream output (tool window).",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/run-task-v1.0.0/run-task.zip",
+      "sha256": "e4f50f59a425a292dee2f6b19052b8776da9d461bb177206a8acc1a3549c02de",
+      "minEditoraVersion": "1.0.0"
     }
   ]
 }
