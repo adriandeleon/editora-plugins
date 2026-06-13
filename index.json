@@ -11,6 +11,17 @@
       "download": "https://github.com/adriandeleon/editora-plugins/releases/download/example-v1.0.0/example.zip",
       "sha256": "d58564bceafe1ed974c760225261b81f9e6e9e1915535dcce699e77fca8eeb4d",
       "minEditoraVersion": "1.0.0"
+    },
+    {
+      "id": "lorem-ipsum",
+      "name": "Lorem Ipsum",
+      "version": "1.0.0",
+      "description": "Generate lorem-ipsum placeholder text: insert a paragraph at the caret, or replace the selection.",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/lorem-ipsum-v1.0.0/lorem-ipsum.zip",
+      "sha256": "c8814c2ec460c5b8f8dac6320041dfa029ef0c4d68a588fba3b4bc3a22b6796f",
+      "minEditoraVersion": "1.0.0"
     }
   ]
 }
