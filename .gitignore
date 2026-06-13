@@ -1,0 +1,7 @@
+# Plugin build artifacts (produced by plugins/<id>/build.sh)
+plugins/*/*.jar
+plugins/*/*.zip
+plugins/*/.build/
+plugins/*/.zipstage/
+plugins/*/.classpath
+.DS_Store

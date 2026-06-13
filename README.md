@@ -17,6 +17,33 @@ repo root lists installable plugins; Editora fetches it from
 The registry URL is configurable in *Settings → Plugins → Registry URL* (this repo is the baked-in
 default), so anyone can point Editora at their own fork.
 
+## Repository layout
+
+```
+index.json          # the registry Editora fetches
+plugins/<id>/        # the SOURCE for each published plugin
+  ├── plugin.json    # manifest
+  ├── src/…          # Java sources (compiled against Editora's exported API)
+  ├── snippets/…     # declarative assets (optional)
+  ├── build.sh       # builds <id>.jar + <id>.zip (+ sha-256)
+  └── README.md
+```
+
+Every plugin listed in `index.json` has its full source here under `plugins/<id>/`, so each published
+release asset is reproducible and auditable.
+
+## Building a plugin
+
+The plugins compile against Editora's exported API on a plain classpath (they load via a child
+`URLClassLoader`). Point `EDITORA_HOME` at your Editora checkout:
+
+```sh
+cd plugins/<id>
+EDITORA_HOME=/path/to/Editora-V2 ./build.sh    # → <id>.jar, <id>.zip, and its sha-256
+```
+
+(The script also auto-detects an `Editora-V2` checkout beside this repo or under `~/src/adl`.)
+
 ## Adding a plugin to the registry
 
 A plugin is distributed as a **`.zip`** whose top level is the plugin folder contents (`plugin.json` + the
