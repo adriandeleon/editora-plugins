@@ -100,8 +100,10 @@ GitHub Actions under `.github/workflows/` keep the registry honest:
   release `.zip` and confirms its SHA-256 matches `index.json`, catching missing or out-of-sync assets.
 - **`release.yml`** — push a tag `<id>-v<version>` (e.g. `box-banner-v1.0.0`) to build that plugin against
   Editora's API and publish its `<id>.zip` as the matching GitHub Release asset; the run prints the
-  asset's SHA-256 to paste into `index.json`. Building checks out the Editora repo (`adriandeleon/Editora-V2`);
-  if that repo is private, add a repo-scoped PAT as the **`EDITORA_REPO_TOKEN`** secret.
+  asset's SHA-256 — paste it into `index.json` and **re-sign**
+  (`java scripts/PluginSigningTool.java sign <registry-private-key> index.json`), then commit `index.json`
+  + `index.json.sig`. Building checks out the Editora repo (`adriandeleon/Editora-V2`); if that repo is
+  private, add a repo-scoped PAT as the **`EDITORA_REPO_TOKEN`** secret.
 
 The signing **public** key in `.github/keys/` is a copy of the one bundled in Editora — update both if the
 registry keypair ever rotates. The **private** key is never in CI; signing stays manual.
