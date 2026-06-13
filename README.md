@@ -87,4 +87,23 @@ java scripts/PluginSigningTool.java sign <registry-private-key> index.json   # w
 Commit `index.json.sig` next to `index.json`. (The matching public key ships inside Editora; a fork with
 its own key bundled can run its own signed registry.)
 
+## Continuous integration
+
+GitHub Actions under `.github/workflows/` keep the registry honest:
+
+- **`validate.yml`** (every push/PR) — `validate_index.py` checks `index.json` is well-formed and
+  consistent (required fields, HTTPS-only URLs, 64-hex-lowercase `sha256`, unique kebab-case ids, the
+  `…/<id>-v<version>/<id>.zip` download scheme, and a matching `plugins/<id>/plugin.json` for each entry),
+  and `VerifySig.java` confirms `index.json.sig` verifies against the bundled public key in
+  `.github/keys/editora-registry.pub`. **Re-sign `index.json` after editing it or this job fails.**
+- **`verify-assets.yml`** (when `index.json` changes, weekly, or on demand) — downloads each plugin's
+  release `.zip` and confirms its SHA-256 matches `index.json`, catching missing or out-of-sync assets.
+- **`release.yml`** — push a tag `<id>-v<version>` (e.g. `box-banner-v1.0.0`) to build that plugin against
+  Editora's API and publish its `<id>.zip` as the matching GitHub Release asset; the run prints the
+  asset's SHA-256 to paste into `index.json`. Building checks out the Editora repo (`adriandeleon/Editora-V2`);
+  if that repo is private, add a repo-scoped PAT as the **`EDITORA_REPO_TOKEN`** secret.
+
+The signing **public** key in `.github/keys/` is a copy of the one bundled in Editora — update both if the
+registry keypair ever rotates. The **private** key is never in CI; signing stays manual.
+
 See the Editora plugin guide for the full plugin API and manifest format.

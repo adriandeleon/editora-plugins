@@ -1,0 +1,41 @@
+name: Validate registry
+
+# Validates the registry on every push/PR: index.json is well-formed and consistent
+# with the on-disk plugin sources, and index.json.sig is a valid Ed25519 signature of
+# index.json under the bundled registry public key. No network access required.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-index:
+    name: Validate index.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate index.json
+        run: python3 .github/scripts/validate_index.py
+
+  verify-signature:
+    name: Verify index.json.sig
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Verify Ed25519 signature
+        run: |
+          java .github/scripts/VerifySig.java \
+            .github/keys/editora-registry.pub index.json index.json.sig

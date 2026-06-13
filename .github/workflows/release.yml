@@ -1,0 +1,118 @@
+name: Release plugin
+
+# Builds a plugin's distributable .zip and publishes it as a GitHub Release asset.
+# Trigger by pushing a tag named "<id>-v<version>" (matching index.json's download-URL
+# scheme), e.g.  git tag box-banner-v1.0.0 && git push origin box-banner-v1.0.0
+#
+# After the release runs, copy the printed sha-256 into index.json for that plugin and
+# re-sign index.json (scripts/PluginSigningTool.java in the Editora checkout).
+#
+# Building compiles the plugin against Editora's exported API, so it checks out the
+# Editora repo. If that repo is private, add a repo-scoped PAT as the secret
+# EDITORA_REPO_TOKEN; for a public repo the default token is enough.
+
+on:
+  push:
+    tags: ['*-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Plugin tag to build (<id>-v<version>)'
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  EDITORA_REPO: adriandeleon/Editora-V2
+
+jobs:
+  release:
+    name: Build & publish plugin asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve tag, id, version
+        id: meta
+        run: |
+          tag="${{ github.event.inputs.tag || github.ref_name }}"
+          if [[ ! "$tag" =~ ^(.+)-v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "::error::tag '$tag' must be '<id>-v<X.Y.Z>' (e.g. box-banner-v1.0.0)"
+            exit 1
+          fi
+          echo "tag=$tag"              >> "$GITHUB_OUTPUT"
+          echo "id=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          echo "version=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout registry
+        uses: actions/checkout@v4
+
+      - name: Check plugin source exists
+        run: |
+          id="${{ steps.meta.outputs.id }}"
+          if [ ! -f "plugins/$id/build.sh" ]; then
+            echo "::error::no plugins/$id/build.sh — unknown plugin id '$id'"
+            exit 1
+          fi
+
+      - name: Checkout Editora (build dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.EDITORA_REPO }}
+          token: ${{ secrets.EDITORA_REPO_TOKEN || github.token }}
+          path: .editora
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Warm Maven (online) so build.sh's offline steps resolve
+        working-directory: .editora
+        run: ./mvnw -q -B -DskipTests compile dependency:build-classpath -Dmdep.outputFile=/tmp/cp.txt
+
+      - name: Build plugin zip
+        id: build
+        env:
+          EDITORA_HOME: ${{ github.workspace }}/.editora
+        run: |
+          id="${{ steps.meta.outputs.id }}"
+          ( cd "plugins/$id" && ./build.sh )
+          zip="plugins/$id/$id.zip"
+          if [ ! -f "$zip" ]; then
+            echo "::error::build produced no $zip"
+            exit 1
+          fi
+          sha=$(sha256sum "$zip" | cut -d' ' -f1)
+          echo "zip=$zip"  >> "$GITHUB_OUTPUT"
+          echo "sha=$sha"  >> "$GITHUB_OUTPUT"
+          echo "Built $zip"
+          echo "sha-256 = $sha"
+
+      - name: Cross-check against index.json (informational)
+        run: |
+          id="${{ steps.meta.outputs.id }}"
+          ver="${{ steps.meta.outputs.version }}"
+          sha="${{ steps.build.outputs.sha }}"
+          idxver=$(jq -r --arg id "$id" '.plugins[] | select(.id==$id) | .version' index.json)
+          idxsha=$(jq -r --arg id "$id" '.plugins[] | select(.id==$id) | .sha256'  index.json)
+          [ "$idxver" = "$ver" ] || echo "::warning::index.json version for $id is '$idxver', tag is '$ver' — update index.json"
+          [ "$idxsha" = "$sha" ] || echo "::warning::index.json sha256 for $id ('$idxsha') != built asset ('$sha') — update index.json then re-sign"
+
+      - name: Create / update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ steps.meta.outputs.tag }}"
+          id="${{ steps.meta.outputs.id }}"
+          ver="${{ steps.meta.outputs.version }}"
+          zip="${{ steps.build.outputs.zip }}"
+          sha="${{ steps.build.outputs.sha }}"
+          notes=$(printf '**%s** %s\n\n`sha256(%s.zip)` = `%s`\n\nSet this sha256 in `index.json` for `%s`, then re-sign `index.json`.' "$id" "$ver" "$id" "$sha" "$id")
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$zip" --clobber
+            gh release edit "$tag" --notes "$notes"
+          else
+            gh release create "$tag" "$zip" --title "$id $ver" --notes "$notes"
+          fi
