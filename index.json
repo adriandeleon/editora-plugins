@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "plugins": [
+    {
+      "id": "example",
+      "name": "Example Plugin",
+      "version": "1.0.0",
+      "description": "Demonstrates every Editora extension point (command, keybinding, tool window, editor menu item, status-bar segment, snippet).",
+      "author": "Editora",
+      "homepage": "https://github.com/adriandeleon/editora-plugins",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/example-v1.0.0/example.zip",
+      "sha256": "d58564bceafe1ed974c760225261b81f9e6e9e1915535dcce699e77fca8eeb4d",
+      "minEditoraVersion": "1.0.0"
+    }
+  ]
+}
