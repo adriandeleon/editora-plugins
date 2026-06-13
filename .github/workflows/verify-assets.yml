@@ -1,0 +1,55 @@
+name: Verify release assets
+
+# Downloads each plugin's release .zip and confirms its SHA-256 matches index.json,
+# catching entries that point at a missing or out-of-sync asset. Network-dependent, so
+# it runs only when index.json changes, on a weekly schedule, and on demand — not on
+# every PR.
+
+on:
+  push:
+    branches: [main]
+    paths: [index.json]
+  pull_request:
+    paths: [index.json]
+  schedule:
+    - cron: '0 6 * * 1'   # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-assets:
+    name: Verify download SHA-256s
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download each asset and compare sha256
+        run: |
+          set -uo pipefail
+          fail=0
+          count=$(jq '.plugins | length' index.json)
+          echo "Checking $count plugin asset(s)…"
+          for i in $(seq 0 $((count - 1))); do
+            id=$(jq -r ".plugins[$i].id" index.json)
+            url=$(jq -r ".plugins[$i].download" index.json)
+            want=$(jq -r ".plugins[$i].sha256" index.json)
+            tmp=$(mktemp)
+            if ! curl -fsSL --retry 3 --retry-delay 2 -o "$tmp" "$url"; then
+              echo "::error::[$id] download failed: $url"
+              fail=1; rm -f "$tmp"; continue
+            fi
+            got=$(sha256sum "$tmp" | cut -d' ' -f1)
+            rm -f "$tmp"
+            if [ "$got" = "$want" ]; then
+              echo "[$id] OK ($got)"
+            else
+              echo "::error::[$id] sha256 mismatch"
+              echo "  index.json: $want"
+              echo "  asset:      $got"
+              echo "  url:        $url"
+              fail=1
+            fi
+          done
+          exit $fail
