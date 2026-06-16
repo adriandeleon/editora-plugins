@@ -3,16 +3,20 @@ package com.example.editora.scratchpad;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 import com.editora.plugin.Plugin;
 import com.editora.plugin.PluginContext;
 
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
 /**
@@ -49,7 +53,7 @@ public class ScratchpadPlugin implements Plugin {
         Region content = box;
 
         ctx.registerToolWindow("scratchpad", "Scratchpad",
-                com.editora.plugin.ToolWindowSide.RIGHT, content, null);
+                com.editora.plugin.ToolWindowSide.RIGHT, content, null, icon());
     }
 
     private static String readQuietly(Path file) {
@@ -67,5 +71,18 @@ public class ScratchpadPlugin implements Plugin {
         } catch (IOException e) {
             ctx.log("Scratchpad save failed: " + e.getMessage());
         }
+    }
+
+    /** Material "edit" (pencil) glyph — fits a writable scratchpad. */
+    private static Supplier<Node> icon() {
+        return () -> {
+            SVGPath svg = new SVGPath();
+            svg.setContent("M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 "
+                    + "0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z");
+            svg.getStyleClass().add("toolbar-icon");
+            svg.setScaleX(0.8);
+            svg.setScaleY(0.8);
+            return new Group(svg);
+        };
     }
 }

@@ -24,7 +24,7 @@ permissions:
   contents: write
 
 env:
-  EDITORA_REPO: adriandeleon/Editora-V2
+  EDITORA_REPO: adriandeleon/Editora
 
 jobs:
   release:

@@ -1,5 +1,7 @@
 package com.example.editora.wordcount;
 
+import java.util.function.Supplier;
+
 import com.editora.plugin.Plugin;
 import com.editora.plugin.PluginContext;
 import com.editora.plugin.ToolWindowSide;
@@ -7,10 +9,13 @@ import com.editora.plugin.ToolWindowSide;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
 /**
@@ -51,6 +56,18 @@ public class WordCountPlugin implements Plugin {
         box.setPadding(new Insets(10));
         Region content = box;
 
-        ctx.registerToolWindow("wordcount", "Word Count", ToolWindowSide.RIGHT, content, null);
+        ctx.registerToolWindow("wordcount", "Word Count", ToolWindowSide.RIGHT, content, null, icon());
+    }
+
+    /** Material "subject" (text lines) glyph — fits a word/line/character counter. */
+    private static Supplier<Node> icon() {
+        return () -> {
+            SVGPath svg = new SVGPath();
+            svg.setContent("M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z");
+            svg.getStyleClass().add("toolbar-icon");
+            svg.setScaleX(0.8);
+            svg.setScaleY(0.8);
+            return new Group(svg);
+        };
     }
 }

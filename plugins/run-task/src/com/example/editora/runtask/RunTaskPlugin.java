@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 import com.editora.plugin.Plugin;
 import com.editora.plugin.PluginContext;
@@ -12,6 +13,8 @@ import com.editora.plugin.ToolWindowSide;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -20,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 
 /**
  * A simple task-runner tool window: type a shell command (e.g. {@code npm run build} or {@code make}), run
@@ -74,7 +78,7 @@ public class RunTaskPlugin implements Plugin {
         box.setPadding(new Insets(8));
         Region content = box;
 
-        ctx.registerToolWindow("runtask", "Task Runner", ToolWindowSide.BOTTOM, content, null);
+        ctx.registerToolWindow("runtask", "Task Runner", ToolWindowSide.BOTTOM, content, null, icon());
     }
 
     private void exec(Path dir, String cmd, TextArea output, Button run, Button stop) {
@@ -104,5 +108,18 @@ public class RunTaskPlugin implements Plugin {
                 stop.setDisable(true);
             });
         }
+    }
+
+    /** Material "terminal" glyph — fits a shell task runner that streams output. */
+    private static Supplier<Node> icon() {
+        return () -> {
+            SVGPath svg = new SVGPath();
+            svg.setContent("M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 "
+                    + "14H4V8h16v10zM18 17h-6v-2h6v2zM7.5 17l-1.41-1.41L8.67 13l-2.59-2.59L7.5 9l4 4-4 4z");
+            svg.getStyleClass().add("toolbar-icon");
+            svg.setScaleX(0.8);
+            svg.setScaleY(0.8);
+            return new Group(svg);
+        };
     }
 }

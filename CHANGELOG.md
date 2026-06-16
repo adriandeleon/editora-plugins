@@ -11,6 +11,19 @@ and `index.json` entries.
 
 ## [Unreleased]
 
+### Changed
+
+- Tool-window plugins now ship a **relevant stripe icon** instead of the generic jigsaw (which only
+  the `example` plugin keeps): `calculator` (ƒx), `color-picker` (palette), `regex-tester` (magnifier),
+  `run-task` (terminal), `scratchpad` (pencil), `word-count` (text lines). Each builds its own
+  `SVGPath` and passes it to the new `registerToolWindow(…, Supplier<Node> icon)` API overload added in
+  Editora. These six plugins go to **v1.1.0** (needs an Editora build with the icon overload).
+
+### Fixed
+
+- `release.yml` checked out the wrong Editora repo (`adriandeleon/Editora-V2` → **`adriandeleon/Editora`**),
+  which would fail the "Checkout Editora" build step; the README's mention was corrected to match.
+
 ### Removed
 
 - **reveal** (Reveal & Terminal) plugin — its functionality (reveal the file in the OS file

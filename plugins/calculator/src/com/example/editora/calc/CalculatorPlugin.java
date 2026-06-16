@@ -1,17 +1,22 @@
 package com.example.editora.calc;
 
+import java.util.function.Supplier;
+
 import com.editora.plugin.Plugin;
 import com.editora.plugin.PluginContext;
 import com.editora.plugin.ToolWindowSide;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 
 /**
  * A calculator tool window: type an arithmetic expression, see the result live, and insert it at the caret.
@@ -60,6 +65,18 @@ public class CalculatorPlugin implements Plugin {
         box.setPadding(new Insets(10));
         Region content = box;
 
-        ctx.registerToolWindow("calculator", "Calculator", ToolWindowSide.RIGHT, content, null);
+        ctx.registerToolWindow("calculator", "Calculator", ToolWindowSide.RIGHT, content, null, icon());
+    }
+
+    /** Material "functions" (Σ / fx) glyph — fits an arithmetic-expression evaluator. */
+    private static Supplier<Node> icon() {
+        return () -> {
+            SVGPath svg = new SVGPath();
+            svg.setContent("M18 4H6v2l6.5 6L6 18v2h12v-3h-7l5-5-5-5h7z");
+            svg.getStyleClass().add("toolbar-icon");
+            svg.setScaleX(0.8);
+            svg.setScaleY(0.8);
+            return new Group(svg);
+        };
     }
 }
