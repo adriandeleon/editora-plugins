@@ -189,17 +189,6 @@
       "minEditoraVersion": "1.0.0"
     },
     {
-      "id": "reveal",
-      "name": "Reveal & Terminal",
-      "version": "1.0.0",
-      "description": "Reveal the file in the OS file manager, or open a terminal at its folder.",
-      "author": "Editora",
-      "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/reveal-v1.0.0/reveal.zip",
-      "sha256": "d591f6a10645bbbe9ad9ef7daca9e8583fe31fbbb3608e60dad0885c74d13f4e",
-      "minEditoraVersion": "1.0.0"
-    },
-    {
       "id": "run-task",
       "name": "Task Runner",
       "version": "1.0.0",

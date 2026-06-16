@@ -11,6 +11,12 @@ and `index.json` entries.
 
 ## [Unreleased]
 
+### Removed
+
+- **reveal** (Reveal & Terminal) plugin — its functionality (reveal the file in the OS file
+  manager / open a terminal at its folder) is now built into Editora, so it's no longer
+  published here. Dropped from `index.json` (now 18 plugins) and `plugins/`.
+
 ### Added
 
 - **CI/CD via GitHub Actions** under `.github/workflows/`:
