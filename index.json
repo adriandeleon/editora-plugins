@@ -48,12 +48,12 @@
     {
       "id": "scratchpad",
       "name": "Scratchpad",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "A persistent scratchpad tool window; auto-saves to the plugin's data dir.",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/scratchpad-v1.0.0/scratchpad.zip",
-      "sha256": "2485a4c2cbd511e52a938afb40aee67721e97e5ef4a430a6b8dafd51c6dc29c2",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/scratchpad-v1.1.0/scratchpad.zip",
+      "sha256": "0e3d2c354950c30ebad71df5b28fe2683dc4db1dfa68f50c354c30da825e7ae0",
       "minEditoraVersion": "1.0.0"
     },
     {
@@ -103,12 +103,12 @@
     {
       "id": "regex-tester",
       "name": "Regex Tester",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "A live regex tester tool window: pattern + flags + test string, with match spans and capture groups.",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/regex-tester-v1.0.0/regex-tester.zip",
-      "sha256": "38563853ea1627927901571016a61bc80d08cf25520c48d2098d58f05dad1dba",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/regex-tester-v1.1.0/regex-tester.zip",
+      "sha256": "ca17f534d677f63b211402c76f7753d9678e5220f741da9be888cd9e41902330",
       "minEditoraVersion": "1.0.0"
     },
     {
@@ -147,34 +147,34 @@
     {
       "id": "color-picker",
       "name": "Color Picker",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Pick a color and insert it as HEX / rgb() / rgba() (tool window).",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/color-picker-v1.0.0/color-picker.zip",
-      "sha256": "1df5a2e8b0113020230eb537829c3d02bffdd40ae1015e3c8e78ef99d09efa7d",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/color-picker-v1.1.0/color-picker.zip",
+      "sha256": "a5cdf61d358458c18824c1a813603074d331ffc9dac05c894668c517b426fc3d",
       "minEditoraVersion": "1.0.0"
     },
     {
       "id": "word-count",
       "name": "Word Count",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Live word/line/character count + reading time (tool window).",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/word-count-v1.0.0/word-count.zip",
-      "sha256": "bd8a9d6cb2f6743a3488f412eb2b2e4308ba4a4084300db27bcf40501f8a4760",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/word-count-v1.1.0/word-count.zip",
+      "sha256": "a96423f9eb2e4bfc491329804d880cd4bbb2d2b9e94dca57b54d42298b880cf9",
       "minEditoraVersion": "1.0.0"
     },
     {
       "id": "calculator",
       "name": "Calculator",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Evaluate arithmetic expressions and insert the result (tool window).",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/calculator-v1.0.0/calculator.zip",
-      "sha256": "8cd0ee7b471b7047dbc78173ee6dda28c7f9a49d65f891d98ca56cb5ee86a045",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/calculator-v1.1.0/calculator.zip",
+      "sha256": "bef3dc665ee192843480ce5a05ca33519d8b3ca1607076640558fe853d57814b",
       "minEditoraVersion": "1.0.0"
     },
     {
@@ -191,12 +191,12 @@
     {
       "id": "run-task",
       "name": "Task Runner",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Run a shell task (npm/make/\u2026) in the file's directory and stream output (tool window).",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/run-task-v1.0.0/run-task.zip",
-      "sha256": "e4f50f59a425a292dee2f6b19052b8776da9d461bb177206a8acc1a3549c02de",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/run-task-v1.1.0/run-task.zip",
+      "sha256": "951f7f8f3ee5b9e7027978e89039083d1f5d3cb766b0e35874ec0325367c8a84",
       "minEditoraVersion": "1.0.0"
     }
   ]
