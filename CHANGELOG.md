@@ -32,6 +32,11 @@ and `index.json` entries.
 
 ### Added
 
+- **gpg-tools** (GnuPG) plugin — encrypt / decrypt / symmetric-encrypt / clear-sign / verify the active
+  buffer via the external `gpg` CLI (stdin→stdout, ASCII-armored, in place + undoable), plus simple key
+  management (list public keys, pick/remember a recipient, import, generate). Cross-platform binary
+  resolution (Homebrew / GPG Suite / Gpg4win / Git-for-Windows) with an optional configured path;
+  passphrases are handled by gpg-agent/pinentry, never by the plugin. Tool window with a padlock icon.
 - **CI/CD via GitHub Actions** under `.github/workflows/`:
   - `validate.yml` (every push/PR) — validates `index.json` for shape and consistency
     (required fields, HTTPS-only URLs, 64-hex-lowercase `sha256`, unique kebab-case ids, the

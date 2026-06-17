@@ -1,0 +1,6 @@
+{
+  "id": "gpg-tools",
+  "name": "GnuPG",
+  "version": "1.0.0",
+  "main": "com.example.editora.gpg.GpgToolsPlugin"
+}
