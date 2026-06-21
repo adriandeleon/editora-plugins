@@ -1,5 +1,6 @@
 package com.example.editora.gpg;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Supplier;
 
@@ -21,19 +21,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 /**
  * GnuPG integration: encrypt / decrypt / sign / verify the active buffer via the external {@code gpg} CLI,
@@ -98,8 +97,8 @@ public class GpgToolsPlugin implements Plugin {
                 btn("Passphrase…", this::encryptSymmetric),
                 btn("Sign", this::clearsign),
                 btn("Verify", this::verify),
-                btn("Import key", this::importKey),
-                btn("Generate…", this::generateKey));
+                btn("Encrypt to File…", this::encryptToFile),
+                btn("Sign to File…", this::detachSignToFile));
 
         gpgPathField = new TextField(config.getProperty("gpg.path", ""));
         gpgPathField.setPromptText("auto-detected — set an explicit gpg path if needed");
@@ -143,13 +142,13 @@ public class GpgToolsPlugin implements Plugin {
 
     private void registerCommands() {
         ctx.registerCommand("gpg.encrypt", "GnuPG: Encrypt to Recipient", this::encrypt);
+        ctx.registerCommand("gpg.encryptToFile", "GnuPG: Encrypt to New File", this::encryptToFile);
         ctx.registerCommand("gpg.decrypt", "GnuPG: Decrypt", this::decrypt);
         ctx.registerCommand("gpg.encryptSymmetric", "GnuPG: Encrypt with Passphrase (Symmetric)", this::encryptSymmetric);
         ctx.registerCommand("gpg.clearsign", "GnuPG: Clear-Sign", this::clearsign);
+        ctx.registerCommand("gpg.detachSign", "GnuPG: Sign to New File (Detached)", this::detachSignToFile);
         ctx.registerCommand("gpg.verify", "GnuPG: Verify Signature", this::verify);
-        ctx.registerCommand("gpg.importKey", "GnuPG: Import Key from Buffer", this::importKey);
         ctx.registerCommand("gpg.refreshKeys", "GnuPG: Refresh Keys", () -> worker(this::refreshStatusAndKeys));
-        ctx.registerCommand("gpg.generateKey", "GnuPG: Generate Key…", this::generateKey);
     }
 
     // ---- operations (read buffer on FX thread, run gpg off it, apply back on it) --------------------------
@@ -195,45 +194,85 @@ public class GpgToolsPlugin implements Plugin {
         });
     }
 
-    private void importKey() {
-        byte[] input = bufferBytes("import");
+    private void encryptToFile() {
+        Gpg.Key key = recipients.getValue();
+        if (key == null) {
+            setStatus("Pick a recipient in the GnuPG tool window first");
+            return;
+        }
+        writeToNewFile(
+                "Encrypt to file",
+                ".asc",
+                List.of("--batch", "--yes", "--no-tty", "--armor", "--trust-model", "always", "--output", "-",
+                        "--encrypt", "--recipient", key.recipient()));
+    }
+
+    private void detachSignToFile() {
+        // Detached armored signature → a separate .sig file; pinentry prompts for the passphrase.
+        writeToNewFile("Sign to file", ".sig", List.of("--yes", "--no-tty", "--armor", "--output", "-", "--detach-sign"));
+    }
+
+    /** Run gpg over the buffer and write its output to a user-chosen new file; the buffer is left untouched. */
+    private void writeToNewFile(String opName, String suffix, List<String> args) {
+        byte[] input = bufferBytes(opName.toLowerCase());
         if (input == null) {
             return;
         }
-        setStatus("Importing key…");
+        ActiveEditor ed = ctx.activeEditor();
+        Path target = chooseTargetFile(ed, suffix);
+        if (target == null) {
+            return; // cancelled
+        }
+        setStatus(opName + "…");
         worker(() -> {
-            Gpg.Result r = Gpg.run(gpgPath, List.of("--batch", "--no-tty", "--import"), input);
+            Gpg.Result r = Gpg.run(gpgPath, args, input);
+            if (!r.ok()) {
+                Platform.runLater(() -> {
+                    logBlock(opName + " failed", r.err().isBlank() ? "gpg exit " + r.code() : r.err());
+                    setStatus(opName + " failed — see GnuPG output");
+                });
+                return;
+            }
+            try {
+                Files.write(target, r.out());
+            } catch (IOException e) {
+                Platform.runLater(() -> {
+                    logBlock(opName + " failed", "Could not write " + target + ": " + e.getMessage());
+                    setStatus(opName + " failed — see GnuPG output");
+                });
+                return;
+            }
             Platform.runLater(() -> {
-                logBlock("Import", r.err().isBlank() ? r.outText() : r.err());
-                setStatus(r.ok() ? "Key import done" : "Key import failed");
-                refreshStatusAndKeys();
+                ed.openPath(target);
+                setStatus(opName + " — wrote " + target.getFileName());
+                if (!r.err().isBlank()) {
+                    logBlock(opName, r.err());
+                }
             });
         });
     }
 
-    private void generateKey() {
-        Optional<String[]> who = promptNameEmail();
-        if (who.isEmpty()) {
-            return;
+    /** A save dialog seeded next to the active file with a sensible default name; null if cancelled. */
+    private Path chooseTargetFile(ActiveEditor ed, String suffix) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save GnuPG output");
+        Path src = ed.filePath();
+        String defaultName = "untitled" + suffix;
+        if (src != null) {
+            defaultName = src.getFileName().toString() + suffix;
+            try { // toFile() throws for a remote (SFTP) path — just skip seeding the dir then.
+                Path dir = src.getParent();
+                if (dir != null && Files.isDirectory(dir)) {
+                    chooser.setInitialDirectory(dir.toFile());
+                }
+            } catch (UnsupportedOperationException ignored) {
+                // remote/non-default filesystem — leave the chooser's directory at its default.
+            }
         }
-        String name = who.get()[0].trim();
-        String email = who.get()[1].trim();
-        if (name.isEmpty() && email.isEmpty()) {
-            setStatus("Generate cancelled — a name or email is required");
-            return;
-        }
-        String userId = email.isEmpty() ? name : (name.isEmpty() ? email : name + " <" + email + ">");
-        setStatus("Generating key for " + userId + " (pinentry will ask for a passphrase)…");
-        worker(() -> {
-            // --quick-generate-key: default algo, no expiry; pinentry prompts for the passphrase.
-            Gpg.Result r =
-                    Gpg.run(gpgPath, List.of("--no-tty", "--quick-generate-key", userId, "default", "default", "never"), null);
-            Platform.runLater(() -> {
-                logBlock("Generate", r.err().isBlank() ? r.outText() : r.err());
-                setStatus(r.ok() ? "Key generated" : "Key generation failed");
-                refreshStatusAndKeys();
-            });
-        });
+        chooser.setInitialFileName(defaultName);
+        Window owner = output.getScene() == null ? null : output.getScene().getWindow();
+        File chosen = chooser.showSaveDialog(owner);
+        return chosen == null ? null : chosen.toPath();
     }
 
     /** Encrypt/decrypt/sign family: read the buffer, run gpg, replace the buffer with the output on success. */
@@ -378,30 +417,6 @@ public class GpgToolsPlugin implements Plugin {
         } catch (IOException e) {
             ctx.log("GnuPG: could not save config: " + e.getMessage());
         }
-    }
-
-    /** A small modal dialog asking for a name + email for key generation; empty when cancelled. */
-    private Optional<String[]> promptNameEmail() {
-        Dialog<String[]> dialog = new Dialog<>();
-        dialog.setTitle("Generate GnuPG Key");
-        dialog.setHeaderText("Create a new key pair. gpg-agent will ask for a passphrase.");
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-
-        TextField name = new TextField();
-        name.setPromptText("Your Name");
-        TextField email = new TextField();
-        email.setPromptText("you@example.com");
-        GridPane grid = new GridPane();
-        grid.setHgap(8);
-        grid.setVgap(8);
-        grid.setPadding(new Insets(10));
-        grid.addRow(0, new Label("Name:"), name);
-        grid.addRow(1, new Label("Email:"), email);
-        dialog.getDialogPane().setContent(grid);
-        Platform.runLater(name::requestFocus);
-
-        dialog.setResultConverter(bt -> bt == ButtonType.OK ? new String[] {name.getText(), email.getText()} : null);
-        return dialog.showAndWait();
     }
 
     /** Material "lock" (padlock) glyph for the GnuPG tool window. */

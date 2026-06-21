@@ -1,9 +1,10 @@
 # GnuPG plugin
 
-Encrypt, decrypt, sign, and verify the active buffer with **GnuPG** (the external `gpg` CLI), plus very
-simple key management. Everything runs through `gpg` **stdin → stdout** with ASCII armor, so plaintext never
-hits a temp file and the result stays text — the buffer is replaced in place (undoable via `setText`, so a
-single Undo restores it). Save the buffer afterwards (or *Save As* to keep the encrypted copy separate).
+Encrypt, decrypt, sign, and verify the active buffer with **GnuPG** (the external `gpg` CLI). Everything runs
+through `gpg` **stdin → stdout** with ASCII armor, so plaintext never hits a temp file and the result stays
+text. The in-place actions replace the buffer (undoable via `setText`, so a single Undo restores it) — save
+afterwards, or *Save As* to keep the encrypted copy separate. The **to-file** actions instead write `gpg`'s
+output to a new file you choose and leave the buffer untouched.
 
 Cross-platform: macOS, Linux, and Windows.
 
@@ -26,13 +27,13 @@ Open the command palette (`M-x`) — all are prefixed **GnuPG:**
 
 | Command | What it does |
 | --- | --- |
-| **Encrypt to Recipient** | Public-key encrypt the buffer for the recipient selected in the tool window (ASCII-armored). |
+| **Encrypt to Recipient** | Public-key encrypt the buffer for the recipient selected in the tool window (ASCII-armored), replacing the buffer. |
+| **Encrypt to New File** | Public-key encrypt the buffer and write the armored ciphertext to a new file you choose (default `‹file›.asc`); the buffer is left untouched, then the new file opens. |
 | **Decrypt** | Decrypt the buffer (gpg-agent/pinentry prompts for your passphrase). |
 | **Encrypt with Passphrase (Symmetric)** | Symmetric-encrypt with a passphrase — no keys needed. |
-| **Clear-Sign** | Wrap the buffer in a clear-text signature. |
+| **Clear-Sign** | Wrap the buffer in a clear-text signature (inline, replacing the buffer). |
+| **Sign to New File (Detached)** | Write a **detached** armored signature (`--detach-sign`) to a new file you choose (default `‹file›.sig`) beside the original; the buffer is left untouched. |
 | **Verify Signature** | Verify a signed/clear-signed buffer; result shown in the tool window. |
-| **Import Key from Buffer** | `gpg --import` the key block in the buffer. |
-| **Generate Key…** | Create a key pair (`--quick-generate-key`); a small dialog asks for name + email. |
 | **Refresh Keys** | Reload the public-key list. |
 | **GnuPG** | Toggle the tool window. |
 
@@ -44,9 +45,10 @@ optional **gpg path** override, and an output pane for `gpg`'s messages.
 
 ## Key management
 
-Deliberately minimal: list your public keys, choose/remember a default recipient, import a key from the
-buffer, and generate a new key pair. For anything more (editing trust, revocation, subkeys, exporting),
-use `gpg` directly — e.g. `gpg --export --armor <id>` or `gpg --full-generate-key`.
+Out of scope by design — this plugin encrypts/decrypts/signs/verifies; it doesn't administer keys. It only
+**lists your public keys** so you can pick an encryption recipient (remembered between sessions). To create,
+import, export, or edit keys, use GPG Keychain (GPG Suite) or `gpg` directly — e.g. `gpg --import`,
+`gpg --export --armor <id>`, or `gpg --full-generate-key`.
 
 ## Troubleshooting
 
