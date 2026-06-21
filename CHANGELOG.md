@@ -18,6 +18,11 @@ and `index.json` entries.
   `run-task` (terminal), `scratchpad` (pencil), `word-count` (text lines). Each builds its own
   `SVGPath` and passes it to the new `registerToolWindow(…, Supplier<Node> icon)` API overload added in
   Editora. These six plugins go to **v1.1.0** (needs an Editora build with the icon overload).
+- **gpg-tools** (GnuPG) → **v1.1.0**: add **Encrypt to File…** and **Sign to File…** (detached armored
+  signature) actions — both write `gpg`'s output to a new file you choose (default `‹file›.asc` / `‹file›.sig`)
+  and leave the buffer untouched — and **drop the Import key / Generate… key-administration actions**, keeping
+  the plugin focused on encrypt/decrypt/sign/verify (the recipient key list stays). Released as
+  `gpg-tools-v1.1.0`.
 
 ### Fixed
 
