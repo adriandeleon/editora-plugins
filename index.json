@@ -202,12 +202,12 @@
     {
       "id": "gpg-tools",
       "name": "GnuPG",
-      "version": "1.0.0",
-      "description": "Encrypt, decrypt, sign, and verify the active buffer with GnuPG (the gpg CLI), with simple key management.",
+      "version": "1.1.0",
+      "description": "Encrypt, decrypt, sign, and verify the active buffer with GnuPG (the gpg CLI); also encrypt or write a detached signature to a new file.",
       "author": "Editora",
       "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/gpg-tools-v1.0.0/gpg-tools.zip",
-      "sha256": "c2c5b3a099da07d3636510202e99869164683ce7c900bb8030bcf2b0f166d953",
+      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/gpg-tools-v1.1.0/gpg-tools.zip",
+      "sha256": "1d37e55860598d43e3b72631a121c7ab0f2c76c07d72127fffcdf71777c26ade",
       "minEditoraVersion": "1.0.0"
     }
   ]
