@@ -90,17 +90,6 @@
       "minEditoraVersion": "1.0.0"
     },
     {
-      "id": "markdown-toc",
-      "name": "Markdown TOC",
-      "version": "1.0.0",
-      "description": "Insert a table of contents (linked bullet list) built from the document's Markdown headings.",
-      "author": "Editora",
-      "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/markdown-toc-v1.0.0/markdown-toc.zip",
-      "sha256": "dd454e24fc8e2ad447d3d815a7eca0429d22cd03b636f061171e4f0b8a776ce8",
-      "minEditoraVersion": "1.0.0"
-    },
-    {
       "id": "regex-tester",
       "name": "Regex Tester",
       "version": "1.1.0",
