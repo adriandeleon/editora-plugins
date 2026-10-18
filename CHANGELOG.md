@@ -11,6 +11,13 @@ and `index.json` entries.
 
 ## [Unreleased]
 
+### Removed
+
+- **gpg-tools** (GnuPG): GnuPG encryption, decryption, signing and verification are built into Editora
+  from its next release (encrypted `.gpg`/`.pgp`/`.asc` files open as their text and save encrypted; File ▸
+  Encryption). Editora removes an installed copy of the plugin at startup and refuses to install or list
+  `gpg-tools`, so its source and `index.json` entry are dropped. The `gpg-tools-v*` release assets stay.
+
 ### Changed
 
 - Tool-window plugins now ship a **relevant stripe icon** instead of the generic jigsaw (which only

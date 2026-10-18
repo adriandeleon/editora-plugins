@@ -9,7 +9,7 @@ A backlog of planned improvements for the plugin registry. Unordered within each
       Editora and publish `<id>.zip` as the release asset)
 - [x] Signed registry — detached Ed25519 `index.json.sig` verified against the public key
       bundled in Editora; CI fails on a stale/invalid signature
-- [x] 19 plugins published, each with full source under `plugins/<id>/` and a reproducible
+- [x] 17 plugins published, each with full source under `plugins/<id>/` and a reproducible
       `build.sh`
 - [x] Project docs — LICENSE (MIT), AUTHORS.md, CHANGELOG.md, README status badges
 
