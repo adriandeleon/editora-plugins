@@ -187,17 +187,6 @@
       "download": "https://github.com/adriandeleon/editora-plugins/releases/download/run-task-v1.1.0/run-task.zip",
       "sha256": "951f7f8f3ee5b9e7027978e89039083d1f5d3cb766b0e35874ec0325367c8a84",
       "minEditoraVersion": "1.0.0"
-    },
-    {
-      "id": "gpg-tools",
-      "name": "GnuPG",
-      "version": "1.1.0",
-      "description": "Encrypt, decrypt, sign, and verify the active buffer with GnuPG (the gpg CLI); also encrypt or write a detached signature to a new file.",
-      "author": "Editora",
-      "homepage": "https://github.com/adriandeleon/editora-plugins",
-      "download": "https://github.com/adriandeleon/editora-plugins/releases/download/gpg-tools-v1.1.0/gpg-tools.zip",
-      "sha256": "1d37e55860598d43e3b72631a121c7ab0f2c76c07d72127fffcdf71777c26ade",
-      "minEditoraVersion": "1.0.0"
     }
   ]
 }
